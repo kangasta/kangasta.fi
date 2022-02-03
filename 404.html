@@ -1,0 +1,124 @@
+<html lang="en">
+
+<head>
+  <title>Toni Kangas</title>
+  <style>
+    :root {
+      --blue: #88f;
+      --black: #222226;
+      --white: #ddd;
+    }
+
+    body {
+      align-items: center;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      font-family: 'Source Sans Pro', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      padding: 0 2em;
+    }
+
+    header {
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      font-weight: 300;
+      margin: 1em 0;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: var(--blue);
+    }
+
+    a:hover,
+    a:focus {
+      outline: none;
+      text-decoration: underline;
+    }
+
+    .flex-1 {
+      flex: 1;
+    }
+
+    .highlight {
+      flex-wrap: wrap;
+      display: flex;
+      justify-content: center;
+      row-gap: 3em;
+    }
+
+    img.profile {
+      border-radius: 50%;
+      font-size: 3em;
+      height: 4.25em;
+      margin: 0.125em 0.5em;
+    }
+
+    .intro-container {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .intro-row {
+      background: var(--white);
+      color: var(--black);
+      font-size: 3em;
+      line-height: 1.25em;
+      margin: 0.125em;
+      padding: 0 0.25em;
+    }
+
+    footer {
+      font-size: 1.5em;
+      display: flex;
+    }
+
+    footer a {
+      margin: 1em;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h1>Toni Kangas</h1>
+  </header>
+  <main class="flex-1">
+    <div class="highlight">
+      <img alt="" aria-hidden="true" class="profile" src="profile-512px.jpg">
+      <div class="intro-container">
+        <span class="intro-row">Hello!</span>
+        <span class="intro-row">My name is Toni.</span>
+        <span class="intro-row">I am a full-stack developer.</span>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <a href="https://github.com/kangasta/">GitHub</a>
+    <a href="https://www.linkedin.com/in/tonikangas/">LinkedIn</a>
+  </footer>
+</body>
+
+</html>
