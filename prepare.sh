@@ -2,4 +2,4 @@
 
 rm -rf public/;
 mkdir -p public/;
-cp index.html profile-512px.jpg public/;
+cp index.html preview.png profile-512px.jpg public/;
