@@ -8,6 +8,25 @@
       --blue: #88f;
       --black: #222226;
       --white: #ddd;
+      --highlight-size: 1.25em;
+    }
+
+    @media screen and (min-width: 350px) {
+      :root {
+        --highlight-size: 1.5em;
+      }
+    }
+
+    @media screen and (min-width: 450px) {
+      :root {
+        --highlight-size: 2em;
+      }
+    }
+
+    @media screen and (min-width: 890px) {
+      :root {
+        --highlight-size: 3em;
+      }
     }
 
     body {
@@ -60,14 +79,14 @@
 
     .highlight {
       flex-wrap: wrap;
+      font-size: var(--highlight-size);
       display: flex;
       justify-content: center;
-      row-gap: 3em;
+      row-gap: 1em;
     }
 
     img.profile {
       border-radius: 50%;
-      font-size: 3em;
       height: 4.25em;
       margin: 0.125em 0.5em;
     }
@@ -82,7 +101,6 @@
     .intro-row {
       background: var(--white);
       color: var(--black);
-      font-size: 3em;
       line-height: 1.25em;
       margin: 0.125em;
       padding: 0 0.25em;
@@ -107,8 +125,7 @@
   <meta property="og:image" content="https://kangasta.fi/preview.png" />
   <meta name="description" content="Hello! My name is Toni. I am a full-stack developer.">
   <meta name="theme-color" content="#222226" />
-  <meta name="viewport" content="width=640, initial-scale=1" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
 <body>
