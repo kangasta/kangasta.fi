@@ -6,6 +6,7 @@
   <style>
     :root {
       --blue: #88f;
+      --grey: #999;
       --black: #222226;
       --white: #ddd;
       --highlight-size: 1.25em;
@@ -38,7 +39,6 @@
       font-family: 'Source Sans Pro', sans-serif;
       margin: 0;
       min-height: 100vh;
-      padding: 0 2em;
     }
 
     header {
@@ -46,16 +46,15 @@
       text-transform: uppercase;
     }
 
-    main {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
     h1 {
       font-size: 1.5em;
       font-weight: 300;
       margin: 1em 0;
+    }
+
+    h2, h3 {
+      font-weight: normal;
+      margin: 1.5em 0 0;
     }
 
     a {
@@ -77,7 +76,59 @@
       flex: 1;
     }
 
-    .highlight {
+    .flex-col-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .slide-deck-container {
+      display: flex;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .slide-deck {
+      display: flex;
+      position: relative;
+      transition: left 250ms ease-in-out;
+    }
+
+    .slide {
+      box-sizing: border-box;
+      flex-shrink: 0;
+      padding: 1em 2em;
+      width: 100vw;
+    }
+
+    .slide-content {
+      margin: auto;
+      max-width: 1080px;
+    }
+
+    .slide-indicator {
+      all: unset;
+      background-clip: content-box;
+      background-color: currentColor;
+      border-radius: 50%;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+      height: 1em;
+      margin: 0 0.25em;
+      padding: 0.25em;
+      width: 1em;
+    }
+
+    .slide-indicator:focus {
+      outline: 2px solid var(--blue);
+    }
+
+    .slide-indicator:disabled {
+      outline: 2px solid currentColor;
+    }
+
+    .intro-slide-content {
       flex-wrap: wrap;
       font-size: var(--highlight-size);
       display: flex;
@@ -98,12 +149,22 @@
       justify-content: center;
     }
 
-    .intro-row {
+    .intro-row, h2 {
       background: var(--white);
       color: var(--black);
       line-height: 1.25em;
       margin: 0.125em;
       padding: 0 0.25em;
+    }
+
+    .secondary {
+      color: var(--grey);
+    }
+
+    h2 {
+      display: inline;
+      margin: 0;
+      font-size: var(--highlight-size);
     }
 
     footer {
@@ -115,6 +176,82 @@
       margin: 1em;
     }
   </style>
+  <script>
+    function getCurrentSlide() {
+      const deck = document.getElementById("slide-deck");
+      if (!deck) return;
+
+      return (deck.style.left.match(/-([0-9]*)vw/)?.[1] ?? 0) / 100;
+    }
+
+    function setCurrentSlide(index) {
+      const deck = document.getElementById("slide-deck");
+      if (!deck) return;
+
+      const slideCount = deck.querySelectorAll('.slide').length;
+      const slideIndex = Math.max(0, Math.min(slideCount - 1, index));
+      deck.style.left = `-${slideIndex * 100}vw`;
+      updateSlideIndicator(slideIndex);
+      return index;
+    }
+
+    function initSlideIndicator() {
+      const indicator = document.getElementById("slide-deck-indicator");
+      if (!indicator) return;
+
+      const deck = document.getElementById("slide-deck");
+      if (!deck) return;
+
+      const slideCount = deck.querySelectorAll('.slide').length;
+
+      for (let i = 0; i < slideCount; i++) {
+        const item = document.createElement('button');
+        item.classList.add('slide-indicator')
+        item.onclick = function () { setCurrentSlide(i); }
+
+        if (i == 0) {
+          item.disabled = true;
+        }
+
+        indicator.appendChild(item);
+      }
+    }
+
+    function updateSlideIndicator(index) {
+      const indicator = document.getElementById("slide-deck-indicator");
+      if (!indicator) return;
+
+      const indicatorButtons = indicator.querySelectorAll('.slide-indicator') ?? [];
+      indicatorButtons.forEach(function (el, i) {
+        if (i == index) {
+          el.disabled = true;
+        } else {
+          el.disabled = false;
+        }
+      });
+    }
+
+    function moveSlideDeck(move) {
+      const index = getCurrentSlide();
+      return setCurrentSlide(index + move);
+    }
+
+    function onKeyDown(event) {
+      if (event.key === 'ArrowLeft') {
+        return moveSlideDeck(-1);
+      }
+      if (event.key === 'ArrowRight') {
+        return moveSlideDeck(1);
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    if (document.readyState != 'loading') {
+      initSlideIndicator();
+    } else {
+      document.addEventListener("DOMContentLoaded", initSlideIndicator);
+    }
+  </script>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,16 +270,33 @@
   <header>
     <h1>Toni Kangas</h1>
   </header>
-  <main class="flex-1">
-    <div class="highlight">
-      <img alt="" aria-hidden="true" class="profile" src="profile-512px.jpg">
-      <div class="intro-container">
-        <span class="intro-row">Hello!</span>
-        <span class="intro-row">My name is Toni.</span>
-        <span class="intro-row">I am a full-stack developer.</span>
+  <main class="flex-1 slide-deck-container" tabindex="-1">
+    <div class="slide-deck" id="slide-deck" style="left: 0">
+      <div class="flex-col-center slide">
+        <div class="intro-slide-content">
+          <img alt="" aria-hidden="true" class="profile" src="profile-512px.jpg">
+          <div class="intro-container">
+            <span class="intro-row">Hello!</span>
+            <span class="intro-row">My name is Toni.</span>
+            <span class="intro-row">I am a full-stack developer.</span>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-content">
+          <h2></h2>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="slide-content">
+          <h2></h2>
+        </div>
       </div>
     </div>
   </main>
+  <div id="slide-deck-indicator">
+    <!-- Buttons created by initSlideIndicator() -->
+  </div>
   <footer>
     <a href="https://github.com/kangasta/">GitHub</a>
     <a href="https://www.linkedin.com/in/tonikangas/">LinkedIn</a>
